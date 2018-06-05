@@ -7,6 +7,9 @@ Hostname resolution will work if the Pi-Hole is used as DHCP server.
 
 ![alt text](https://i.imgur.com/v828Ak1.png)
 
+Requirements:
+```pip3 install requests ```
+
 Usage:
 ```python3 main.py [WEBPASSWORD]```
 or
