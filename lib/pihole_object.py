@@ -7,9 +7,10 @@ from datetime import datetime
 
 class pihole_obj():
 
-	def __init__(self, webpass):			
+	def __init__(self, webpassword, server_ip):			
 
-		self.webpass = webpass
+		self.webpassword = webpassword
+		self.server_ip = server_ip
 		self.data = None
 		
 		self.domains_being_blocked = None
@@ -41,14 +42,14 @@ class pihole_obj():
 		self.clients_list = {}
 		
 		# Update summary data
-		r = requests.get('http://127.0.0.1/admin/api.php?summary&auth={}'.format(self.webpass))
+		r = requests.get('http://{}/admin/api.php?summary&auth={}'.format(self.server_ip, self.webpassword))
 		self.data = r.json()
 		self.update_summary()
 
 		# Update query_sources data
 
 		try:
-			r = requests.get('http://127.0.0.1/admin/api.php?getQuerySources&auth={}'.format(self.webpass))
+			r = requests.get('http://{}/admin/api.php?getQuerySources&auth={}'.format(self.server_ip, self.webpassword))
 			self.top_sources = r.json()
 			self.top_sources = self.top_sources['top_sources']
 			self.translate_query_sources()
@@ -57,14 +58,14 @@ class pihole_obj():
 			raise SystemExit(0)
 
 		# Update topItems
-		r = requests.get('http://127.0.0.1/admin/api.php?topItems=25&auth={}'.format(self.webpass))
+		r = requests.get('http://{}/admin/api.php?topItems=25&auth={}'.format(self.server_ip, self.webpassword))
 		self.top_queries = r.json()
 		self.top_queries = self.top_queries['top_queries']
 		self.update_top_queries()
 
 
 		# Recent Blocked
-		r = requests.get('http://127.0.0.1/admin/api.php?recentBlocked&auth={}'.format(self.webpass))
+		r = requests.get('http://{}/admin/api.php?recentBlocked&auth={}'.format(self.server_ip, self.webpassword))
 		self.recentBlocked = r.text
 
 
@@ -112,10 +113,11 @@ class pihole_obj():
 		print('\tClientsQueries:\t\t\tTopDomains:\n')
 		i = 0
 		for entry in sorted(self.clients_list.values(), key=operator.attrgetter('hits'), reverse=True):
+			if i < 8:
 
-			if entry.ip.strip() not in self.ignore_list:
-				print('\t{: <25.20}{: <20}{: <40}{}'.format(entry.hostname, entry.hits, self.top_queries[i][0], str(self.top_queries[i][1])))
-				i+=1
+				if entry.ip.strip() not in self.ignore_list:
+					print('\t{: <25.20}{: <20}{: <40}{}'.format(entry.hostname, entry.hits, self.top_queries[i][0], str(self.top_queries[i][1])))
+					i+=1
 		print('\n################################################################')
 
 
