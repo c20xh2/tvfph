@@ -1,5 +1,6 @@
-# pi_hole_viewer
-
+# tvfph
+(terminal viewer for pi-hole)
+This is a third party application, and may not always work with the latest version of Pi-hole
 Pihole API Terminal Parsing
 
 This script will show live stats from the Pi-Hole in a terminal.
