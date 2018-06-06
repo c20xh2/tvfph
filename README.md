@@ -9,11 +9,15 @@ Hostname resolution will work if the Pi-Hole is used as DHCP server.
 
 Requirements:
 ```pip3 install requests ```
+```
+usage: main.py [-h] [-w WEBPASSWORD] [-i IP]
 
-Usage:
-```python3 main.py [WEBPASSWORD]```
-or
-```python3 main.py ```
+optional arguments:
+  -h, --help            show this help message and exit
+  -w WEBPASSWORD, --webpassword WEBPASSWORD
+                        WEBPASSWORD (found via cat /etc/pihole/setupVars.conf)
+  -i IP, --ip IP        IP address of the Pi-Hole server
+```
 
-(Make sure you provide the WEBPASSWORD in WebPassword.txt)
+(You can also provide the WEBPASSWORD in WebPassword.txt)
     
